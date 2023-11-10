@@ -1,0 +1,68 @@
+extensions:
+  basicauth/client:
+    client_auth:
+      username: "${env:OTLP_USERNAME}"
+      password: "${env:OTLP_PASSWORD}"
+
+receivers:
+  otlp:
+    protocols:
+      http:
+      grpc:
+
+processors:
+  batch:
+  attributes:
+    actions:
+      - key: voripos_otel_collector_version
+        value: "${env:VORIPOS_OTEL_COLLECTOR_VERSION}"
+        action: upsert
+      - key: provisioned_environment
+        value: "${env:VORIPOS_ENVIRONMENT}"
+        action: upsert
+      - key: bannerID
+        value: "${env:VORIPOS_BANNER_ID}"
+        action: upsert
+      - key: bannerName
+        value: "${env:VORIPOS_BANNER_NAME}"
+        action: upsert
+      - key: storeID
+        value: "${env:VORIPOS_STORE_ID}"
+        action: upsert
+      - key: storeName
+        value: "${env:VORIPOS_STORE_NAME}"
+        action: upsert
+      - key: laneID
+        value: "${env:VORIPOS_LANE_ID}"
+        action: upsert
+      - key: laneName
+        value: "${env:VORIPOS_LANE_NAME}"
+        action: upsert
+  memory_limiter:
+    check_interval: 5s
+    limit_mib: 500
+    spike_limit_mib: 200
+
+exporters:
+  debug:
+    verbosity: detailed
+  otlp:
+    endpoint: "${env:OTLP_HOSTNAME}:${env:OTLP_PORT}"
+    auth:
+      authenticator: basicauth/client
+
+service:
+  extensions: [basicauth/client]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter,attributes,batch]
+      exporters: [debug, otlp]
+    metrics:
+      receivers: [otlp]
+      processors: [memory_limiter,attributes,batch]
+      exporters: [debug, otlp]
+    logs:
+      receivers: [otlp]
+      processors: [memory_limiter,attributes,batch]
+      exporters: [debug, otlp]
