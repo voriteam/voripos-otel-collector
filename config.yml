@@ -1,8 +1,10 @@
 extensions:
-  basicauth/client:
-    client_auth:
-      username: "${env:OTLP_USERNAME}"
-      password: "${env:OTLP_PASSWORD}"
+  oauth2client:
+    client_id: "${env:OIDC_CLIENT_ID}"
+    client_secret: "${env:OIDC_CLIENT_SECRET}"
+    token_url: "${env:OIDC_TOKEN_URL}"
+    scopes: [ "observability" ]
+    timeout: 10s
 
 receivers:
   otlp:
@@ -49,10 +51,10 @@ exporters:
   otlp:
     endpoint: "${env:OTLP_HOSTNAME}:${env:OTLP_PORT}"
     auth:
-      authenticator: basicauth/client
+      authenticator: oauth2client
 
 service:
-  extensions: [basicauth/client]
+  extensions: [oauth2client]
   pipelines:
     traces:
       receivers: [otlp]
