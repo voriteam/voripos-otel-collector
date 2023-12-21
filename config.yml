@@ -25,8 +25,19 @@ receivers:
   filelog:
     include: [ /opt/homebrew/Cellar/voripos-txn-sync/**/var/log/voripos-txn-sync.log ]
     include_file_path: true
+    operators:
+      - type: json_parser
+        id: timestamp_parser
+        timestamp:
+          parse_from: attributes.time
+          # NOTE: We use gotime because striptime cannot handle the colon in the timezone offset:
+          #   Example: 2023-12-21T08:16:11.890832-08:00
+          layout_type: gotime
+          layout: '2006-01-02T15:04:05.999999-07:00'
+        severity:
+          parse_from: attributes.level
     attributes:
-      service: litestream
+      'service.name': litestream
 
 processors:
   batch:
