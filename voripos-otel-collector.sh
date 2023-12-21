@@ -4,6 +4,7 @@
 export PATH="/opt/homebrew/bin:$PATH"
 
 export VORIPOS_OTEL_COLLECTOR_VERSION=0.3.0
+DEVICE_SERIAL_NUMBER=$(ioreg -c IOPlatformExpertDevice -d 2 | awk -F\" '/IOPlatformSerialNumber/{print $(NF-1)}')
 
 OIDC_CLIENT_ID=
 OIDC_CLIENT_SECRET=
@@ -50,6 +51,7 @@ else
   VORIPOS_LANE_NAME=$(defaults read com.vori.VoriPOS provisioned_laneName)
 fi
 
+export DEVICE_SERIAL_NUMBER
 export OIDC_CLIENT_ID
 export OIDC_CLIENT_SECRET
 export OIDC_TOKEN_URL
