@@ -13,6 +13,7 @@ receivers:
         endpoint: localhost:4318
       grpc:
         endpoint: localhost:4317
+  # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/prometheusreceiver
   prometheus:
     config:
       scrape_configs:
@@ -20,6 +21,12 @@ receivers:
           scrape_interval: 60s
           static_configs:
             - targets: [ '0.0.0.0:9090' ]
+  # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/filelogreceiver
+  filelog:
+    include: [ /opt/homebrew/Cellar/voripos-txn-sync/**/var/log/voripos-txn-sync.log ]
+    include_file_path: true
+    attributes:
+      service: litestream
 
 processors:
   batch:
@@ -77,6 +84,6 @@ service:
       processors: [memory_limiter,attributes,batch]
       exporters: [debug, otlp]
     logs:
-      receivers: [otlp]
+      receivers: [otlp,filelog]
       processors: [memory_limiter,attributes,batch]
       exporters: [debug, otlp]
