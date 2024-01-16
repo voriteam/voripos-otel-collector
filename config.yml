@@ -46,28 +46,28 @@ processors:
       - key: device.serial_number
         value: "${env:DEVICE_SERIAL_NUMBER}"
         action: insert
-      - key: voripos_otel_collector_version
+      - key: voripos.otel_collector_version
         value: "${env:VORIPOS_OTEL_COLLECTOR_VERSION}"
         action: upsert
-      - key: provisioned_environment
+      - key: voripos.environment
         value: "${env:VORIPOS_ENVIRONMENT}"
         action: upsert
-      - key: bannerID
+      - key: voripos.banner.id
         value: "${env:VORIPOS_BANNER_ID}"
         action: upsert
-      - key: bannerName
+      - key: voripos.banner.name
         value: "${env:VORIPOS_BANNER_NAME}"
         action: upsert
-      - key: storeID
+      - key: voripos.store.id
         value: "${env:VORIPOS_STORE_ID}"
         action: upsert
-      - key: storeName
+      - key: voripos.store.name
         value: "${env:VORIPOS_STORE_NAME}"
         action: upsert
-      - key: laneID
+      - key: voripos.lane.id
         value: "${env:VORIPOS_LANE_ID}"
         action: upsert
-      - key: laneName
+      - key: voripos.lane.name
         value: "${env:VORIPOS_LANE_NAME}"
         action: upsert
   memory_limiter:
