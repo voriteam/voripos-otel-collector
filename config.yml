@@ -78,8 +78,8 @@ processors:
 exporters:
   debug:
     verbosity: detailed
-  otlp:
-    endpoint: "${env:OTLP_HOSTNAME}:${env:OTLP_PORT}"
+  otlphttp:
+    endpoint: "https://otel-http.vori.com"
     auth:
       authenticator: oauth2client
 
@@ -89,12 +89,12 @@ service:
     traces:
       receivers: [otlp]
       processors: [memory_limiter,attributes,batch]
-      exporters: [debug, otlp]
+      exporters: [debug, otlphttp]
     metrics:
       receivers: [otlp,prometheus]
       processors: [memory_limiter,attributes,batch]
-      exporters: [debug, otlp]
+      exporters: [debug, otlphttp]
     logs:
       receivers: [otlp,filelog]
       processors: [memory_limiter,attributes,batch]
-      exporters: [debug, otlp]
+      exporters: [debug, otlphttp]
