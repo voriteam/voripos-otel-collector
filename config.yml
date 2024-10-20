@@ -82,6 +82,8 @@ exporters:
     endpoint: "https://otel-http.vori.com"
     auth:
       authenticator: oauth2client
+    headers:
+      User-Agent: "voripos-otel-collector/${env:VORIPOS_OTEL_COLLECTOR_VERSION} (voripos; banner_id:${env:VORIPOS_BANNER_ID} store_id:${env:VORIPOS_STORE_ID} lane_id:${env:VORIPOS_LANE_ID}) ${env:VORIPOS_BANNER_NAME}, ${env:VORIPOS_STORE_NAME}, ${env:VORIPOS_LANE_NAME}"
 
 service:
   extensions: [oauth2client]
