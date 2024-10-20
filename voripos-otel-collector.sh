@@ -3,7 +3,7 @@
 # This is needed to locate the otelcol-contrib executable
 export PATH="/opt/homebrew/bin:$PATH"
 
-export VORIPOS_OTEL_COLLECTOR_VERSION=0.5.0
+export VORIPOS_OTEL_COLLECTOR_VERSION=0.5.1
 DEVICE_SERIAL_NUMBER=$(ioreg -c IOPlatformExpertDevice -d 2 | awk -F\" '/IOPlatformSerialNumber/{print $(NF-1)}')
 
 OIDC_CLIENT_ID=
